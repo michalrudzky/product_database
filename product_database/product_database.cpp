@@ -3,8 +3,21 @@
 
 #include "stdafx.h"
 #include <iostream>
+#include <string>
+#include <vector>
 
 using namespace std;
+
+struct product
+{
+	int id;
+	string name;
+	float price;
+};
+
+vector<product> product_collection;
+
+int ID = 1;
 
 int main()
 {
