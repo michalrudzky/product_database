@@ -23,6 +23,9 @@ void add_product();
 void delete_product(int product_id);
 void edit_product(int product_id);
 void display_products();
+void search_product(int product_id);
+void search_product(string product_name);
+
 
 int main()
 {
@@ -62,6 +65,38 @@ int main()
 			display_products();
 			break;
 		case 5:
+			int search_criteria;
+			cout << "Select searching criteria: " << endl;
+			cout << "1. ID" << endl;
+			cout << "2. Name" << endl;
+			cout << "3. Price" << endl;
+			cin >> search_criteria;
+
+			if (search_criteria == 1)
+			{
+				int search_id;
+				cout << "Enter the ID you want to search for: ";
+				cin >> search_id;
+				search_product(search_id);
+			}
+			else if (search_criteria == 2)
+			{
+				int search_name;
+				cout << "Enter the name you want to search for: ";
+				cin >> search_name;
+				search_product(search_name);
+			}
+			else if (search_criteria == 3)
+			{
+				int search_price;
+				cout << "Enter the price you want to search for: ";
+				cin >> search_price;
+				search_product(search_price);
+			}
+			else
+			{
+				cout << "Invalid input." << endl;
+			}
 			break;
 		case 6:
 			break;
@@ -155,4 +190,70 @@ void display_products()
 			product_collection[i].price << endl;
 	}
 	cout << endl;
+}
+
+void search_product(int product_id)
+{
+	if (product_collection.empty())
+	{
+		cout << "The database is empty." << endl;
+		return;
+	}
+
+	int collection_size = product_collection.size();
+
+	for (int i = 0; i < collection_size; i++)
+	{
+		if (product_collection[i].id == product_id)
+		{
+			cout << "Product: " << endl << product_collection[i].id << "\t" << product_collection[i].name <<
+				"\t" << product_collection[i].price << endl;
+			return;
+		}
+		cout << "There is no product with such ID." << endl;
+	}
+}
+
+void search_product(string product_name)
+{
+	if (product_collection.empty())
+	{
+		cout << "The database is empty." << endl;
+		return;
+	}
+
+	int collection_size = product_collection.size();
+
+	for (int i = 0; i < collection_size; i++)
+	{
+		if (product_collection[i].name == product_name)
+		{
+			cout << "Product: " << endl << product_collection[i].id << "\t" << product_collection[i].name <<
+				"\t" << product_collection[i].price << endl;
+			return;
+		}
+		cout << "There is no product with such ID." << endl;
+	}
+}
+
+void search_product(float product_price)
+{
+	if (product_collection.empty())
+	{
+		cout << "The database is empty." << endl;
+		return;
+	}
+
+	int collection_size = product_collection.size();
+
+	for (int i = 0; i < collection_size; i++)
+	{
+		if (product_collection[i].price == product_price)
+		{
+			cout << "Product: " << endl << product_collection[i].id << "\t" << product_collection[i].name <<
+				"\t" << product_collection[i].price << endl;
+			return;
+		}
+		cout << "There is no product with such ID." << endl;
+	}
 }
