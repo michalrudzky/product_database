@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
@@ -25,7 +26,9 @@ void edit_product(int product_id);
 void display_products();
 void search_product(int product_id);
 void search_product(string product_name);
-
+void save_to_file();
+void add_to_file();
+void load_from_file();
 
 int main()
 {
@@ -99,10 +102,13 @@ int main()
 			}
 			break;
 		case 6:
+			save_to_file();
 			break;
 		case 7:
+			add_to_file();
 			break;
 		case 8:
+			load_from_file();
 			break;
 		case 9:
 			end = true;
@@ -255,5 +261,81 @@ void search_product(float product_price)
 			return;
 		}
 		cout << "There is no product with such ID." << endl;
+	}
+}
+
+void save_to_file()
+{
+	if (product_collection.empty())
+	{
+		cout << "The database is empty." << endl;
+		return;
+	}
+
+	int collection_size = product_collection.size();
+	fstream file;
+
+	file.open("product_database.txt", ios::out);
+	for (int i = 0; i < collection_size; i++)
+	{
+		file << endl << product_collection[i].id << "\t" << product_collection[i].name <<
+			"\t" << product_collection[i].price << endl;
+	}
+	file.close();
+
+	cout << "The database was saved to file.";
+}
+
+void add_to_file()
+{
+	float price;
+	string name;
+	cout << "Enter a price: ";
+	cin >> price;
+	cout << "Enter a name: ";
+	cin >> name;
+
+	fstream file;
+	file.open("product_database.txt", ios::out | ios::app);
+	file << endl << ID << "\t" << name << "\t" << price;
+	file.close();
+	ID++;
+
+	cout << "The product was added to file.";
+}
+
+void load_from_file()
+{
+	fstream file;
+	file.open("product_database.txt", ios::in);
+
+	if (file.good())
+	{
+		product_collection.clear();
+
+		while (!file.eof())
+		{
+			int id;
+			string name;
+			float price;
+
+			file >> id >> name >> price;
+
+			product new_product;
+			new_product.id = id;
+			new_product.name = name;
+			new_product.price = price;
+			ID = new_product.id;
+
+			product_collection.push_back(new_product);
+		}
+
+		file.close();
+		ID++;
+		cout << "The database was loaded from the file.";
+	}
+	else
+	{
+		cout << "The file could not be opened.";
 	}
 }
